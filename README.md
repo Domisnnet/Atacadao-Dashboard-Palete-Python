@@ -9,7 +9,7 @@
 ![Tech](https://img.shields.io/badge/Tech-Python%20%7C%20Streamlit%20%7C%20Plotly-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Data](https://img.shields.io/badge/Data-Pandas-yellow?style=flat-square&logo=pandas)
-![Imagem Dashboard](/assets/images/dashboard-preview.png)
+![Imagem Dashboard](/assets/images/dashboard.png)
 
 > Bem-vindo ao `Atacadão Dashboard de Paletes!` Uma solução de Business Intelligence `Open Source` desenvolvida para otimizar o controle de estoque de paletes no Centro de Distribuição - CD. O projeto visa resolver a dor da rastreabilidade de NFs com devoluções parciais de motoristas, utilizando dados extraídos do sistema `Cerberus.`
 
@@ -185,9 +185,7 @@ Este projeto está licenciado sob a &nbsp;[![Licença MIT](https://img.shields.i
 <h2 id="perfil-do-github">12. 👨‍💻 Perfil do GitHub</h2>
 
 <a href="https://github.com/Domisnnet"> 
-  <img src=
-    "assets/images/DomisDev.png" width="90" style="border-radius: 50%" alt="Acessar perfil GitHub"
-  > 
+  <img src="/assets/images/DomisDev.png" width="90" alt="Acessar perfil GitHub"> 
 </a>
 
 &nbsp;
