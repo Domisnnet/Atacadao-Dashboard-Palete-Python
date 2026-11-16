@@ -52,7 +52,7 @@ Este Dashboard atua como uma camada de inteligência sobre os dados do Sistema. 
 Clique no botão abaixo para iniciar o Verificador de Idade diretamente no seu navegador:
 
 <div align="left">
-  <a href="https://domisnnet.github.io/Age-Checker-Web-Essentials/" target="_blank">
+  <a href="https://atacadao-dashboard-palete-python-ft5rtb7gkgkra8nz2dd5ef.streamlit.app/" target="_blank">
     <img alt="Botão Acessar" src="/assets/images/botão.webp" height="70" width="70" />
   </a>
 </div>
