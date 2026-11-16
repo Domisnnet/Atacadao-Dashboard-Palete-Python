@@ -2,8 +2,25 @@
   "name": "atacadao-dashboard-paletes",
   "version": "1.0.0",
   "description": "Dashboard de Controle de Paletes PBR/CHEP - CD Atacadão",
-  "private": true,
+  "scripts": {
+    "setup": "cross-env-shell \"python -m venv venv && venv\\Scripts\\pip install -r requirements.txt || venv/bin/pip install -r requirements.txt\"",
+    "start": "streamlit run app/main.py",
+    "clean": "rimraf .ipynb_checkpoints __pycache__ app/__pycache__ src/__pycache__"
+  },
+  "repository": { 
+    "type": "git", 
+    "url": "git+https://github.com/Domisnnet/Atacadao-Dashboard-Palete-Python.git" 
+  },
+  "keywords": [
+    "business-intelligence", 
+    "data-science", 
+    "python", 
+    "pandas", 
+    "plotly", 
+    "streamlit", 
+    "domisdev"
+  ],
   "author": "DomisDev",
   "license": "MIT",
-  "keywords": [ "python", "streamlit", "pandas", "plotly", "logistica", "atacadao" ]
+  "devDependencies": { "cross-env": "^7.0.3", "rimraf": "^5.0.5" }
 }
