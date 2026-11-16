@@ -15,7 +15,7 @@ st.title("📦 Dashboard de Controle de Paletes - CD Atacadão")
 st.markdown("Gestão de PBR e CHEP com rastreabilidade de NFs.")
 
 # Carrega os dados
-df = processar_dados('data/dados_exemplo.csv')
+df = processar_dados('data/raw/dados_palete.csv')
 
 # --- Barra Lateral de Filtros ---
 st.sidebar.header("Filtros")
