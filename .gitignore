@@ -1,0 +1,12 @@
+# Ambientes e caches
+.ipynb_checkpoints
+__pycache__
+*.pyc
+.env
+venv/
+
+# Dados Fictícios - BLOQUEADOS por segurança
+data/raw/*.csv
+
+# EXCEÇÃO: Permite o arquivo de exemplo subir para o GitHub
+!data/raw/dados_palete.csv

@@ -1,0 +1,9 @@
+{
+  "name": "atacadao-dashboard-paletes",
+  "version": "1.0.0",
+  "description": "Dashboard de Controle de Paletes PBR/CHEP - CD Atacadão",
+  "private": true,
+  "author": "DomisDev",
+  "license": "MIT",
+  "keywords": [ "python", "streamlit", "pandas", "plotly", "logistica", "atacadao" ]
+}

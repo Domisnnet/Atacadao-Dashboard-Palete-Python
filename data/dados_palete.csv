@@ -1,0 +1,5 @@
+Data_Entrada,NF_Entrada,Fornecedor,Tipo_Palete,Qtd_Recebida,Qtd_Devolvida,NF_Devolucao_Ref
+2026-11-10,12345,Ambev,PBR,50,30,9001
+2026-11-10,12346,Coca-Cola,CHEP,40,40,9002
+2026-11-11,12347,Nestle,PBR,20,0,
+2026-11-12,12348,Unilever,CHEP,100,50,9003

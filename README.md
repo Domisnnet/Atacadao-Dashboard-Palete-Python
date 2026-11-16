@@ -9,7 +9,7 @@
 ![Tech](https://img.shields.io/badge/Tech-Python%20%7C%20Streamlit%20%7C%20Plotly-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Data](https://img.shields.io/badge/Data-Pandas-yellow?style=flat-square&logo=pandas)
-![Imagem Dashboard](/src/assets/images/dashboard-preview.png)
+![Imagem Dashboard](/assets/images/dashboard-preview.png)
 
 > Bem-vindo ao `Atacadão Dashboard de Paletes!` Uma solução de Business Intelligence `Open Source` desenvolvida para otimizar o controle de estoque de paletes no Centro de Distribuição - CD. O projeto visa resolver a dor da rastreabilidade de NFs com devoluções parciais de motoristas, utilizando dados extraídos do sistema `Cerberus.`
 
@@ -53,7 +53,7 @@ Clique no botão abaixo para iniciar o Verificador de Idade diretamente no seu n
 
 <div align="left">
   <a href="https://domisnnet.github.io/Age-Checker-Web-Essentials/" target="_blank">
-    <img alt="Botão Acessar" src="src/assets/images/botão.webp" height="70" width="70" />
+    <img alt="Botão Acessar" src="/assets/images/botão.webp" height="70" width="70" />
   </a>
 </div>
 
