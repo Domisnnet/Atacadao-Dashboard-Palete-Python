@@ -7,7 +7,7 @@ def processar_dados(caminho_csv):
         if row['Saldo_Retido'] == 0:
             return "✅ Devolução Total"
         elif row['Saldo_Retido'] > 0 and row['Qtd_Devolvida'] > 0:
-            return f"⚠️ Parcial - Referente a NF {row['NF_Devolucao_Ref']})"
+            return f"⚠️ Parcial - Referente a NF {row['NF_Devolucao_Ref']}"
         else:
             return "❌ Pendente/Não devolvido"   
     df['Status_Devolucao'] = df.apply(status_devolucao, axis=1)

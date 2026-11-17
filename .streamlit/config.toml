@@ -1,0 +1,6 @@
+[theme]
+base="dark"
+primaryColor="#0056b3" # Azul Atacadão para botões e destaques
+backgroundColor="#0E1117" # Fundo escuro padrão do Streamlit
+secondaryBackgroundColor="#0f0f0f" # Barra lateral um pouco mais escura para destacar
+textColor="#FAFAFA" # Cor de textos
