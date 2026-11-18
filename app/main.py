@@ -7,91 +7,38 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from src.etl import processar_dados
 st.set_page_config(page_title="Paletes Atacadão - CD", page_icon="📦", layout="wide")
-
-# CSS
-st.markdown("""
-<style>
-    /* 1. Estilo base de todas as tags */
-    div[data-baseweb="tag"] {
-        border-radius: 8px !important;
-        border: none !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-    }
-    
-    /* 2. Texto branco por padrão e negrito */
-    div[data-baseweb="tag"] span { color: white !important; font-weight: 600; }
-
-    /* =========================================================
-       TIPO DE PALETE
-    ========================================================= */
-    /* PBR (1º botão) - Marrom */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(1) div[data-baseweb="tag"]:nth-child(1) {
-        background-color: #8B5A2B !important;
-    }
-    
-    /* CHEP (2º botão) - Azul */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(1) div[data-baseweb="tag"]:nth-child(2) {
-        background-color: #0056b3 !important;
-    }
-
-    /* =========================================================
-       FORNECEDORES
-    ========================================================= */
-    /* Ambev */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(2) div[data-baseweb="tag"]:nth-child(1) { background-color: #F2B705 !important; }
-    /* Ambev: Texto preto para contrastar com o amarelo */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(2) div[data-baseweb="tag"]:nth-child(1) span { color: black !important; }
-
-    /* Coca-Cola */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(2) div[data-baseweb="tag"]:nth-child(2) { background-color: #E41E26 !important; }
-
-    /* Nestle */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(2) div[data-baseweb="tag"]:nth-child(3) { background-color: #005B9F !important; }
-
-    /* Unilever */
-    div[data-testid="stSidebar"] div[data-baseweb="select"]:nth-of-type(2) div[data-baseweb="tag"]:nth-child(4) { background-color: #1F3A93 !important; }
-</style>
-""", unsafe_allow_html=True)
-
 st.title("📦 Controle de Paletes - CD Atacadão:")
 st.markdown("Gestão de PBR e CHEP:")
-df = processar_dados('data/raw/dados_palete.csv')
-
-# Barra Lateral
-st.sidebar.header("🎯 Painel de Filtros.")
+df = processar_dados('data/raw/dados_palete.csv') # Fonte dos Dados
+st.sidebar.header("🎯 Painel de Filtros") # Barra Lateral
 st.sidebar.subheader("Tipo de Palete:")
+tipos_disponiveis = df['Tipo_Palete'].unique()
+tipos_selecionados = []
+for tipo in tipos_disponiveis:
+    if st.sidebar.checkbox(tipo, value=True, key=f"tipo_{tipo}"):
+        tipos_selecionados.append(tipo)
+        
+st.sidebar.markdown("---") # Divisória
 
-tipo_palete = st.sidebar.multiselect("Selecione:", 
-    options=df['Tipo_Palete'].unique(), 
-    default=df['Tipo_Palete'].unique(),
-    label_visibility="collapsed"
-)
+st.sidebar.subheader("Fornecedor:") # Índice de Fornecedores
+fornecedores_disponiveis = df['Fornecedor'].unique()
+fornecedores_selecionados = []
+for fornecedor in fornecedores_disponiveis:
+    if st.sidebar.checkbox(fornecedor, value=True, key=f"forn_{fornecedor}"):
+        fornecedores_selecionados.append(fornecedor)
 
-st.sidebar.markdown("---")
-st.sidebar.subheader("Fornecedor:")
+st.sidebar.markdown("---") # Divisória
 
-fornecedor = st.sidebar.multiselect("Selecione:", 
-    options=df['Fornecedor'].unique(), 
-    default=df['Fornecedor'].unique(),
-    label_visibility="collapsed"
-)
+st.sidebar.info("💡 **Nota:** O Saldo Retido mostra os paletes que estão no CD.") # Nota de Rodapé
 
-st.sidebar.markdown("---")
-st.sidebar.info("💡 **Nota:** O Saldo Retido mostra os paletes que estão no CD.")
-
-# Filtra o DataFrame
-df_filtrado = df[(df['Tipo_Palete'].isin(tipo_palete)) & (df['Fornecedor'].isin(fornecedor))]
-
-# KPI's
-col1, col2, col3 = st.columns(3)
+df_filtrado = df[(df['Tipo_Palete'].isin(tipos_selecionados)) & (df['Fornecedor'].isin(fornecedores_selecionados))] # Filtragem de Dados
+col1, col2, col3 = st.columns(3) # KPI's
 col1.metric(label="📦 Total Recebido:", value=f"{df_filtrado['Qtd_Recebida'].sum()} un")
-col2.metric(label="✅ Paletes Devolvidos:", value=f"{df_filtrado['Qtd_Devolvida'].sum()} un")
+col2.metric(label="✅ Total Devolvido:", value=f"{df_filtrado['Qtd_Devolvida'].sum()} un")
 col3.metric(label="⚠️ Saldo Retido no CD:", value=f"{df_filtrado['Saldo_Retido'].sum()} un")
-
 st.divider()
 
-# GRÁFICO DE PIZZA
-st.subheader("Saldo Retido por Fornecedor:")
+st.subheader("Saldo Retido por Fornecedor:") # GRÁFICO DE PIZZA
 cores_marcas = {
     'Ambev': '#F2B705',
     'Coca-Cola': '#E41E26',
@@ -99,45 +46,63 @@ cores_marcas = {
     'Unilever': '#1F3A93'
 }
 
-# Agrupando os dados
 df_pizza = df_filtrado.groupby('Fornecedor')['Saldo_Retido'].sum().reset_index()
-df_pizza = df_pizza[df_pizza['Saldo_Retido'] > 0] # Remove quem tem saldo zero
+df_pizza = df_pizza[df_pizza['Saldo_Retido'] > 0] 
 
-fig_pizza = px.pie(
-    df_pizza, 
-    values='Saldo_Retido', 
-    names='Fornecedor',
-    hole=0.65,
-    color='Fornecedor',
-    color_discrete_map=cores_marcas
-)
+# Evita erro no gráfico , se estiver zerado, não exibe o gráfico de pizza
+if not df_pizza.empty:
+    fig_pizza = px.pie(
+        df_pizza, 
+        values='Saldo_Retido', 
+        names='Fornecedor',
+        hole=0.5, 
+        color='Fornecedor',
+        color_discrete_map=cores_marcas
+    )
 
-fig_pizza.update_traces(
-    textposition='inside', 
-    textinfo='label+value',
-    texttemplate='%{label}<br><b>%{value} un</b>',
-    marker=dict(line=dict(color="#61616181", width=2)) 
-)
+    fig_pizza.update_traces(
+        textposition='inside', 
+        textinfo='label+value', 
+        texttemplate='%{label}<br><b>%{value} un</b>',
+        marker=dict(line=dict(color='#0E1117', width=2)) 
+    )
 
-fig_pizza.update_layout(
-    plot_bgcolor='rgba(0,0,0,0)',
-    paper_bgcolor='rgba(0,0,0,0)',
-    font=dict(color='#FAFAFA', size=14),
-    showlegend=False,
-    margin=dict(t=30, b=30, l=30, r=30)
-)
+    fig_pizza.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        font=dict(color='#FAFAFA', size=14),
+        showlegend=False,
+        margin=dict(t=30, b=30, l=30, r=30)
+    )
 
-# Exibindo o gráfico centralizado
-col_pizza1, col_pizza2, col_pizza3 = st.columns([1, 2, 1])
-with col_pizza2:
-    st.plotly_chart(fig_pizza, use_container_width=True)
-
+    col_pizza1, col_pizza2, col_pizza3 = st.columns([1, 2, 1])
+    with col_pizza2: st.plotly_chart(fig_pizza, use_container_width=True)
+else:
+    st.warning("Nenhum dado selecionado nos filtros.")
+    
 st.divider()
 
-# Tabela
-st.subheader("Status de Rastreamento:")
-st.dataframe(
-    df_filtrado[['NF_Entrada', 'Fornecedor', 'Tipo_Palete', 'Saldo_Retido', 'Status_Devolucao']], 
-    use_container_width=True,
-    hide_index=True
+st.subheader("Status de Rastreamento:") # Tabela
+def colorir_status(val):
+    if "Pendente" in val:
+        return 'color: #E41E26; font-weight: bold;' # Vermelho
+    elif "Parcial" in val:
+        return 'color: #F2B705; font-weight: bold;' # Amarelo
+    elif "Devolvido" in val:
+        return 'color: #00C853; font-weight: bold;' # Verde
+    return ''
+
+df_exibicao = df_filtrado[['NF_Entrada', 'Fornecedor', 'Tipo_Palete', 'Saldo_Retido', 'Status_Devolucao']].copy() # Header da Tabela 
+df_exibicao['NF_Entrada'] = df_exibicao['NF_Entrada'].astype(str).str.replace(r'\.0$', '', regex=True)
+df_exibicao['Status_Devolucao'] = df_exibicao['Status_Devolucao'].str.replace(r'\.0', '', regex=True)
+df_exibicao['Saldo_Retido'] = df_exibicao['Saldo_Retido'].astype(str) + " un"
+styled_df = df_exibicao.style.map(colorir_status, subset=['Status_Devolucao'])
+st.dataframe( styled_df, use_container_width=True, hide_index=True,
+    column_config={
+        "NF_Entrada": st.column_config.TextColumn("NF Entrada:", width="small"),
+        "Fornecedor": st.column_config.TextColumn("Fornecedor:", width="medium"),
+        "Tipo_Palete": st.column_config.TextColumn("Tipo de Palete:", width="small"),
+        "Saldo_Retido": st.column_config.TextColumn("Saldo Retido:", width="small"),
+        "Status_Devolucao": st.column_config.TextColumn("Status da Devolução:", width="medium")
+    }
 )
